@@ -5,7 +5,8 @@ using UnityEngine;
 [Serializable]
 public class Settings
 {
-    
+    public string horizontal;
+    public string vertical;
 }
 
 public class JsonSaver : MonoBehaviour

@@ -10,12 +10,22 @@ public class SliderControl : MonoBehaviour, IPointerUpHandler
     private GameManager gameManager;
     [SerializeField] private Animator animator;
     
-    private static readonly int SMALL = Animator.StringToHash("Small");
+    private static readonly int LEFTTOP = Animator.StringToHash("LeftTop");
+    private static readonly int LEFTBOTTOM = Animator.StringToHash("LeftBottom");
+    private static readonly int RIGHTTOP = Animator.StringToHash("RightTop");
+    private static readonly int RIGHTBOTTOM = Animator.StringToHash("RightBottom");
+
+    private string horizontal = "right";
+    private string vertical = "top";
+    
     private static readonly int IDLE = Animator.StringToHash("Reset");
     
     private void Awake()
     {
         slider = GetComponent<Slider>();
+        
+        horizontal = JsonSaver.instance.Settings.horizontal;
+        vertical = JsonSaver.instance.Settings.vertical;
     }
 
     private void Start()
@@ -44,7 +54,17 @@ public class SliderControl : MonoBehaviour, IPointerUpHandler
 
     private void PlayAnim()
     {
-        animator.SetTrigger(SMALL);
+
+        int x = (horizontal, vertical) switch
+        {
+            ("left", "top") => LEFTTOP,
+            ("left", "bottom") => LEFTBOTTOM,
+            ("right", "top") => RIGHTTOP,
+            ("right", "bottom") => RIGHTBOTTOM,
+            _ => LEFTTOP
+        };
+        
+        animator.SetTrigger(x);
     }
 
     public void ReturnIdle()
