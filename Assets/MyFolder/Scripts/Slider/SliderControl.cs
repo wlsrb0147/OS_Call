@@ -3,12 +3,15 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class SliderControl : MonoBehaviour, IPointerUpHandler
 {
     private Slider slider;
     private GameManager gameManager;
     [SerializeField] private Animator animator;
+    [SerializeField] private VideoPlayer vp;
+    [SerializeField] private GameObject bkg;
     
     private static readonly int LEFTTOP = Animator.StringToHash("LeftTop");
     private static readonly int LEFTBOTTOM = Animator.StringToHash("LeftBottom");
@@ -41,6 +44,8 @@ public class SliderControl : MonoBehaviour, IPointerUpHandler
             if (slider.value >= 0.99f)
             {
                 slider.interactable = false;
+                vp.Play();
+                bkg.SetActive(false);
                 Invoke(nameof(PlayAnim),0.5f);
                 slider.gameObject.SetActive(false);
                 gameManager.StartGame();
@@ -54,7 +59,6 @@ public class SliderControl : MonoBehaviour, IPointerUpHandler
 
     private void PlayAnim()
     {
-
         int x = (horizontal, vertical) switch
         {
             ("left", "top") => LEFTTOP,

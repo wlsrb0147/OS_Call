@@ -80,13 +80,15 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
+            disableOnAlpha.SetActiveFalse();
+            LoadWebcam();
+            await UniTask.Delay(15000, cancellationToken:ct);
+            
             disableOnAlpha.SetActiveTrue();
             StopWebcam();
             await UniTask.Delay(20000, cancellationToken:ct);
             
-            disableOnAlpha.SetActiveFalse();
-            LoadWebcam();
-            await UniTask.Delay(15000, cancellationToken:ct);
+            
         }
     }
     
