@@ -51,6 +51,7 @@ public class SliderControl : MonoBehaviour, IPointerUpHandler
     private void Start()
     {
         gameManager = GameManager.instance;
+        vp.url = JsonSaver.instance.fixedUrl[0];
     }
 
 

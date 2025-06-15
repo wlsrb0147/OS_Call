@@ -8,5 +8,6 @@
     "frameRate" : 30
   },
   "enableTime" : 15.0,
-  "disableTime" : 20.0
+  "disableTime" : 20.0,
+  "videoUrl" : ["namGook.mp4"]
 }

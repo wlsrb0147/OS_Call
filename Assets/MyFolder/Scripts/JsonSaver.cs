@@ -18,13 +18,16 @@ public class Settings
     public CamSettings camSettings;
     public float enableTime;
     public float disableTime;
-    
+    public string[] videoUrl;
+
 }
 
 public class JsonSaver : MonoBehaviour
 {
     public static JsonSaver instance;
     [NonSerialized] public Settings Settings;
+
+    public string[] fixedUrl;
     
     private void Awake()
     {
@@ -32,6 +35,7 @@ public class JsonSaver : MonoBehaviour
         
         Settings =  LoadJsonData<Settings>("settings.json");
         
+        SetPath(Settings.videoUrl,out fixedUrl);
     }
     
     private T LoadJsonData<T>(string fileName)
