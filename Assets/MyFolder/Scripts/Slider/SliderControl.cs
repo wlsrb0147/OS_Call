@@ -11,7 +11,6 @@ public class SliderControl : MonoBehaviour, IPointerUpHandler
     private GameManager gameManager;
     [SerializeField] private Animator animator;
     [SerializeField] private VideoPlayer vp;
-    [SerializeField] private GameObject bkg;
     
     private static readonly int LEFTTOP = Animator.StringToHash("LeftTop");
     private static readonly int LEFTBOTTOM = Animator.StringToHash("LeftBottom");
@@ -23,12 +22,30 @@ public class SliderControl : MonoBehaviour, IPointerUpHandler
     
     private static readonly int IDLE = Animator.StringToHash("Reset");
     
+    [SerializeField] private CanvasGroup bkg;
+    [SerializeField] private CanvasGroup group;
+
+    [SerializeField] private Animator anim;
+    
     private void Awake()
     {
         slider = GetComponent<Slider>();
         
         horizontal = JsonSaver.instance.Settings.horizontal;
         vertical = JsonSaver.instance.Settings.vertical;
+        vp.loopPointReached += VpOnloopPointReached;
+    }
+
+    private readonly int reset = Animator.StringToHash("Reset");
+
+    private void VpOnloopPointReached(VideoPlayer source)
+    {
+        gameManager.GoIdleState();
+        slider.interactable = true;
+        group.gameObject.SetActive(true);
+        bkg.gameObject.SetActive(true);
+        anim.SetTrigger(reset);
+        Debug.Log("Executed");
     }
 
     private void Start()
@@ -45,16 +62,31 @@ public class SliderControl : MonoBehaviour, IPointerUpHandler
             {
                 slider.interactable = false;
                 vp.Play();
-                bkg.SetActive(false);
                 Invoke(nameof(PlayAnim),0.5f);
-                slider.gameObject.SetActive(false);
+                bkg.DOFade(0,0.25f).OnComplete(() =>
+                {
+                    bkg.gameObject.SetActive(false);
+                    bkg.alpha = 1;
+                });
+                group.DOFade(0, 0.25f).OnComplete(() =>
+                {
+                    group.gameObject.SetActive(false);
+                    group.alpha = 1;
+                    slider.value = 0;
+                });
                 gameManager.StartGame();
+                Invoke(nameof(DisableWebcam),24f);
             }
             else
             {
                 slider.value = 0f;
             }
         }
+    }
+
+    private void DisableWebcam()
+    {
+        gameManager.StopWebcam();
     }
 
     private void PlayAnim()

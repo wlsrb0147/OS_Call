@@ -3,10 +3,22 @@ using System.IO;
 using UnityEngine;
 
 [Serializable]
+public class CamSettings
+{
+    public int width;
+    public int height;
+    public int frameRate;
+}
+
+[Serializable]
 public class Settings
 {
     public string horizontal;
     public string vertical;
+    public CamSettings camSettings;
+    public float enableTime;
+    public float disableTime;
+    
 }
 
 public class JsonSaver : MonoBehaviour

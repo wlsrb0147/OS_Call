@@ -1,4 +1,12 @@
 {
   "horizontal" : "right",
-  "vertical" : "top"
+  "vertical" : "top",
+  "camSettings" : 
+  {
+    "width" : 640,
+    "height" : 480,
+    "frameRate" : 30
+  },
+  "enableTime" : 15.0,
+  "disableTime" : 20.0
 }
